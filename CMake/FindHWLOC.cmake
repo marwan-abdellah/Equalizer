@@ -1,20 +1,23 @@
 # Copyright (c) 2012 Marwan Abdellah <marwan.abdellah@epfl.ch>
 
-find_path(HWLOC_INCLUDE_DIR "hwloc.h" 
-  HINTS ${HWLOC_ROOT}/include
-  /usr/include
-  /usr/local/include
-  /opt/local/include 
-)
+find_package(PkgConfig)
+if (PKG_CONFIG_FOUND)
+  message(STATUS "Found PKG_CONFIG")
+else()
+  message(STATUS "Could NOT Find PKG_CONFIG")
+endif()
 
-find_library(HWLOC_LIBRARIES NAMES hwloc 
-  HINTS ${HWLOC_ROOT}/lib
-  PATHS /usr/lib /usr/local/lib /opt/local/lib
-)
+# Search for package files 
+pkg_search_module(HWLOC hwloc>=1.4.0)
 
-include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(HWLOC DEFAULT_MSG HWLOC_LIBRARIES
-  HWLOC_INCLUDE_DIR)
+# Other places via "ccmake .."
+if(NOT HWLOC_FOUND)
+  find_path(HWLOC_INCLUDE_DIR "hwloc.h")
+  find_library(HWLOC_LIBRARIES NAMES hwloc)
+  
+  include(FindPackageHandleStandardArgs)
+  find_package_handle_standard_args(HWLOC DEFAULT_MSG HWLOC_LIBRARIES HWLOC_INCLUDE_DIR)
+endif()
 
 if(HWLOC_FOUND)
   message(STATUS "Found HWLOC in ${HWLOC_INCLUDE_DIR};${HWLOC_LIBRARIES}")

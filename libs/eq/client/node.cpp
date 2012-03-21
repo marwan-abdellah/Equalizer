@@ -195,13 +195,28 @@ bool Node::configExit()
 void Node::_setAffinity()
 {
     const int32_t affinity = getIAttribute( IATTR_HINT_AFFINITY );
+    switch( affinity )
+    {
+        case OFF:
+            break;
 
-    NodeAffinityPacket packet;
-    packet.affinity = affinity;
+        case AUTO:
+            // To be implemented later
+            /*
+            const int32_t cpu = getCPU();
+            Pipe::Thread::setAffinity( cpu );
+            */
+            break;
 
-    co::LocalNodePtr node = getLocalNode();
-    send( node, packet );
-    node->setAffinity( affinity );
+        default:
+            NodeAffinityPacket packet;
+            packet.affinity = affinity;
+
+            co::LocalNodePtr node = getLocalNode();
+            send( node, packet );
+            node->setAffinity( affinity );
+            break;
+    }
 }
 
 void Node::waitFrameStarted( const uint32_t frameNumber ) const
