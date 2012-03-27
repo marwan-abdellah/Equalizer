@@ -201,15 +201,7 @@ void Node::_setAffinity()
             break;
 
         case AUTO:
-<<<<<<< HEAD
             EQINFO << "No automatic thread placement for node threads " << std::endl;
-=======
-            // To be implemented later
-            /*
-            const int32_t cpu = getCPU();
-            Pipe::Thread::setAffinity( cpu );
-            */
->>>>>>> 08f4ae508d45598b99618ffc6c283c85ff2ac374
             break;
 
         default:
