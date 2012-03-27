@@ -1,5 +1,8 @@
-Fix Windows build
+- Fixing FindHWLOC.cmake script for adding support for HWLOC versions 
+greater than 1.4.0 
 
+- Fixing a bug in the thread placements for node threads.
+ 
 [ ] May break build
 [ ] May break existing applications (see CHANGES.txt)
 [x] Bugfix
