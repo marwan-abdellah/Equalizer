@@ -303,12 +303,6 @@ void Pipe::_setupAffinity()
                 Pipe::Thread::setAffinity
                            ( autoAffinitySocket + lunchbox::Thread::SOCKET );
         }
-
-            // To be implemented later
-            /*
-            const int32_t cpu = getCPU();
-            Pipe::Thread::setAffinity( cpu );
-            */
             break;
 
         default:
