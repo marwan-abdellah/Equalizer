@@ -52,7 +52,7 @@
 #include <co/worker.h>
 #include <sstream>
 
-#ifndef EQ_USE_HWLOC
+#ifdef EQ_USE_HWLOC
 #  include <hwloc.h>
 #  include <hwloc/gl.h>
 #endif
@@ -218,11 +218,12 @@ void Pipe::_setupCommandQueue()
 int Pipe::_getAutoAffinity()
 {
     /* Return -1 if no port and devices were specified by the
-     * configuration file*/
+     * configuration files*/
     int cpuIndex = -1;
 
     const uint32_t port = getPort();
     const uint32_t device = getDevice();
+
     if (port == EQ_UNDEFINED_UINT32 || device == EQ_UNDEFINED_UINT32)
     {
         EQWARN << "No valid display is provided in the configuration file"
@@ -262,8 +263,7 @@ int Pipe::_getAutoAffinity()
 
         const int numCpus = hwloc_get_nbobjs_by_type
                                           ( topology, HWLOC_OBJ_SOCKET );
-
-        for (int i = 0; i <= numCpus - 1  ; i++)
+        for (int i = 0; i <= numCpus - 1; i++)
         {
             hwloc_obj_t cpuObj = hwloc_get_obj_inside_cpuset_by_type
                                  ( topology, cpuSet, HWLOC_OBJ_SOCKET, i);
@@ -297,7 +297,7 @@ void Pipe::_setupAffinity()
             if ( autoAffinitySocket == -1 )
             {
                 EQINFO << "Invalid display configuration values" << std::endl;
-                EQINFO << "Auto thread placement is not supported" << std::endl;
+                EQINFO << "Auto thread placement's not supported" << std::endl;
             }
             else
                 Pipe::Thread::setAffinity
