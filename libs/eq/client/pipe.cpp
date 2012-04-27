@@ -215,7 +215,6 @@ void Pipe::_setupCommandQueue()
     Global::leaveCarbon();
 }
 
-<<<<<<< HEAD
 int Pipe::_getAutoAffinity()
 {
     /* Return -1 if no port and devices were specified by the
@@ -283,8 +282,6 @@ int Pipe::_getAutoAffinity()
     return cpuIndex;
 }
 
-=======
->>>>>>> 41f16360b369049ae64e2de9ecc8c67b861d2d48
 void Pipe::_setupAffinity()
 {
     const int32_t affinity = getIAttribute( IATTR_HINT_AFFINITY );
@@ -294,7 +291,7 @@ void Pipe::_setupAffinity()
             break;
 
         case AUTO:
-<<<<<<< HEAD
+
         {
             const int autoAffinitySocket = _getAutoAffinity();
             if ( autoAffinitySocket == -1 )
@@ -306,13 +303,12 @@ void Pipe::_setupAffinity()
                 Pipe::Thread::setAffinity
                            ( autoAffinitySocket + lunchbox::Thread::SOCKET );
         }
-=======
+
             // To be implemented later
             /*
             const int32_t cpu = getCPU();
             Pipe::Thread::setAffinity( cpu );
             */
->>>>>>> 41f16360b369049ae64e2de9ecc8c67b861d2d48
             break;
 
         default:
