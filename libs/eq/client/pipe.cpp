@@ -18,6 +18,7 @@
 
 #include "pipe.h"
 
+#include "channel.h"
 #include "client.h"
 #include "config.h"
 #include "exception.h"
@@ -214,6 +215,7 @@ void Pipe::_setupCommandQueue()
     Global::leaveCarbon();
 }
 
+<<<<<<< HEAD
 int Pipe::_getAutoAffinity()
 {
     /* Return -1 if no port and devices were specified by the
@@ -281,6 +283,8 @@ int Pipe::_getAutoAffinity()
     return cpuIndex;
 }
 
+=======
+>>>>>>> 41f16360b369049ae64e2de9ecc8c67b861d2d48
 void Pipe::_setupAffinity()
 {
     const int32_t affinity = getIAttribute( IATTR_HINT_AFFINITY );
@@ -290,6 +294,7 @@ void Pipe::_setupAffinity()
             break;
 
         case AUTO:
+<<<<<<< HEAD
         {
             const int autoAffinitySocket = _getAutoAffinity();
             if ( autoAffinitySocket == -1 )
@@ -301,6 +306,13 @@ void Pipe::_setupAffinity()
                 Pipe::Thread::setAffinity
                            ( autoAffinitySocket + lunchbox::Thread::SOCKET );
         }
+=======
+            // To be implemented later
+            /*
+            const int32_t cpu = getCPU();
+            Pipe::Thread::setAffinity( cpu );
+            */
+>>>>>>> 41f16360b369049ae64e2de9ecc8c67b861d2d48
             break;
 
         default:
@@ -609,9 +621,29 @@ void Pipe::notifyMapped()
     _state = STATE_MAPPED;
 }
 
+namespace
+{
+class WaitFinishedVisitor : public PipeVisitor
+{
+public:
+    WaitFinishedVisitor( const uint32_t frame ) : _frame( frame ) {}
+
+    virtual VisitorResult visit( Channel* channel )
+        {
+            channel->waitFrameFinished( _frame );
+            return TRAVERSE_CONTINUE;
+        }
+
+private:
+    const uint32_t _frame;
+};
+}
+
 void Pipe::waitFrameFinished( const uint32_t frameNumber ) const
 {
     _finishedFrame.waitGE( frameNumber );
+    WaitFinishedVisitor waiter( frameNumber );
+    accept( waiter );
 }
 
 void Pipe::waitFrameLocal( const uint32_t frameNumber ) const
