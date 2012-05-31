@@ -375,8 +375,7 @@ namespace detail { class Pipe; class RenderThread; }
          * by its port and device in the configuration file */
         int32_t _getAutoAffinity() const;
 
-        //friend class Window;
-
+        friend class Window;
 
         void _stopTransferThread();
 
