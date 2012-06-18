@@ -1,8 +1,6 @@
 # Copyright (c) 2012 Marwan Abdellah <marwan.abdellah@epfl.ch>
 
 # Use pkg-config to fetch the contents of the .pc file 
-# After that, use the directories refer to the libraries and 
-# also the headers
   
 find_package(PkgConfig)
 
